@@ -103,7 +103,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="w-full max-w-4xl flex-1 px-4">
+      <main className="w-full max-w-6xl flex-1 px-4 md:px-8">
         <CategoryFilter categories={CATEGORIES} selected={selectedCategory} onSelect={setSelectedCategory} />
 
         {loading ? (
@@ -115,7 +115,13 @@ export default function Home() {
         ) : (
           <>
             {filteredProjects.length > 0 ? (
-              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 pb-20">
+              <div
+                className={
+                  selectedCategory === 'infographics'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pb-20 items-start'
+                    : 'columns-1 sm:columns-2 md:columns-3 gap-6 pb-20'
+                }
+              >
                 {filteredProjects.map((project) => {
                   const isLogoStyle = project.category_slug === 'logos' || project.category_slug === 'infographics';
                   const aspectClass = project.category_slug === 'infographics' ? 'aspect-[4/5]' : 'aspect-[4/3]';
@@ -123,7 +129,9 @@ export default function Home() {
                   return isLogoStyle ? (
                     <div
                       key={project.id}
-                      className={`break-inside-avoid mb-6 group relative w-full ${aspectClass} bg-zinc-900 rounded-xl overflow-hidden cursor-pointer border border-zinc-800/80 hover:border-zinc-500 transition-all duration-300 shadow-sm block`}
+                      className={`${
+                        selectedCategory === 'infographics' ? '' : 'break-inside-avoid mb-6 inline-block align-top'
+                      } group relative w-full ${aspectClass} bg-zinc-900 rounded-xl overflow-hidden cursor-pointer border border-zinc-800/80 hover:border-zinc-500 transition-all duration-300 shadow-sm`}
                       onClick={() => handleOpenProject(project)}
                     >
                       <div
@@ -149,7 +157,6 @@ export default function Home() {
                           </span>
                           <div className="flex items-center gap-2 text-[10px] text-zinc-500">
                             <span className="flex items-center gap-1">👁️ {project.views ?? 0}</span>
-                            <span className="flex items-center gap-1">💬 0</span>
                           </div>
                         </div>
                       </div>
@@ -157,7 +164,9 @@ export default function Home() {
                   ) : (
                     <div
                       key={project.id}
-                      className="break-inside-avoid mb-6 group flex flex-col cursor-pointer w-full outline-none"
+                      className={`${
+                        selectedCategory === 'infographics' ? '' : 'break-inside-avoid mb-6 inline-block align-top'
+                      } group flex flex-col cursor-pointer w-full outline-none`}
                       onClick={() => handleOpenProject(project)}
                     >
                       <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-colors duration-500 ease-out group-hover:border-zinc-700 aspect-[4/5] shadow-lg z-0">
